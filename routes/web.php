@@ -22,12 +22,27 @@ use App\EventListener\TestListener;
 use App\Factory\Worker;
 use App\Factory\WorkerFactory;
 use App\Singleton\Company;
+use App\Solid\A;
+use App\Solid\B;
 use App\Taxi\AbstractTaxi;
 use App\Taxi\AdvancedTaxi;
 use App\Taxi\Person;
 use App\Taxi\Student;
 use App\Taxi\Taxi;
 use App\User;
+
+
+
+
+Route::get('/liskov', function() {
+
+    $a = new A();
+    $b = new B();
+
+    dump($a->getResult());
+    dump($b->getResult());
+
+});
 
 Route::get('/event-listener', function() {
 
@@ -56,7 +71,7 @@ Route::get('/container', function() {
 
     Container::register(DatabaseResultAdapter::class, function() {
 
-        return new ArrayResultAdapter;
+        return new MySqliResultAdapter();
 
     });
 
@@ -65,6 +80,7 @@ Route::get('/container', function() {
     $adapter3 = Container::resolve(DatabaseResultAdapter::class);
     $adapter4 = Container::resolve(DatabaseResultAdapter::class);
     $adapter5 = Container::resolve(DatabaseResultAdapter::class);
+
 
     dump($adapter1, $adapter2, $adapter3, $adapter4, $adapter5);
 
